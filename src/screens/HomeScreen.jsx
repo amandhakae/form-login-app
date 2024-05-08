@@ -4,11 +4,14 @@ import { Button, Text } from "react-native-paper";
 export default function HomeScreen({ navigation }) {
   return (
     <View>
+      <pre>
       <Text>Bem vinda(o) ao nosso app</Text>
+      </pre>
       <Button
         onPress={() => {
           navigation.navigate("LoginScreen");
         }}
+        mode="contained"
       >
         Login
       </Button>

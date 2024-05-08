@@ -1,77 +1,184 @@
-import { useState } from "react";
 import { View } from "react-native";
-import { Button, Text, TextInput } from "react-native-paper";
+import { Button, Surface, Text, TextInput } from "react-native-paper";
+import { useState } from "react";
+import { styles } from "../config/styles";
 
-export default function LoginScreen() {
+export default function RegisterScreen({ navigation }) {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
+  const [repetirSenha, setRepetirSenha] = useState("");
   const [nome, setNome] = useState("");
   const [logradouro, setLogradouro] = useState("");
   const [cep, setCep] = useState("");
-  const [estado, setEstado] = useState("");
   const [cidade, setCidade] = useState("");
-  const [repetirsenha, setRepetirSenha] = useState("");
+  const [estado, setEstado] = useState("");
+  const [erro, setErro] = useState({
+    email: false,
+    senha: false,
+    repetirSenha: false,
+    nome: false,
+    cep: false,
+    cidade: false,
+    estado: false,
+  });
+ 
+  function realizaRegistro() {
+    console.log("Fazer Registro");
 
+    if (nome === "") {
+      setErro({ ...erro, nome: true });
+      return;
+    }
+    setErro({ ...erro, nome: false });
+    if (email === "") {
+      setErro({ ...erro, email: true });
+      return;
+    }
+    setErro({ ...erro, email: false });
+    if (senha === "") {
+      setErro({ ...erro, senha: true });
+      return;
+    }
+    setErro({ ...erro, senha: false });
+    if (repetirSenha === "") {
+      setErro({ ...erro, repetirSenha: true });
+      return;
+    }
+    setErro({ ...erro, repetirSenha: false });
+    if (cep === "") {
+      setErro({ ...erro, cep: true });
+      return;
+    }
+    setErro({ ...erro, cep: false });
+    if (cidade === "") {
+      setErro({ ...erro, cidade: true });
+      return;
+    }
+    setErro({ ...erro, cidade: false });
+    if (estado === "") {
+      setErro({ ...erro, estado: true });
+      return;
+    }
+    if (senha !== repetirSenha) {
+      setErro({ ...erro, senha: true, repetirSenha: true });
+      return;
+    }
+    // 3) Enviar os dados para a API do Firestore junto ao Firebase Auth
+    // 4) Tratar os erros
+    // 5) Redirecionar para a tela de Login
+  }setErro({ ...erro, estado: false });
 
-  function realizaCadastro() {
-    console.log("Fazer Cadastro");
+  function buscaCEP() {
+    console.log("Busca CEP");
+    let cepLimpo = cep.replace("-", "").trim();
+    if (cepLimpo.length < 8) return;
+    fetch(`https://viacep.com.br/ws/${cepLimpo}/json/`)
+      .then((res) => res.json()) 
+      .then((dados) => {
+        console.log(dados);
+        setLogradouro(dados.logradouro);
+        setCidade(dados.localidade);
+        setEstado(dados.uf);
+      })
+      .catch((erro) => {
+        console.error(erro);
+        setErro("CEP não encontrado");
+      });
   }
-  
+
   return (
-    <View>
-      <Text>Faça seu Cadastro</Text>
-      <TextInput
-        placeholder="Digite seu nome"
-        onChangeText={setNome}
-        value={nome}
-      />
-      <TextInput
-        placeholder="Digite seu e-mail"
-        onChangeText={setEmail}
-        value={email}
-      />
-      <TextInput
-        placeholder="Digite sua senha"
-        onChangeText={setSenha}
-        value={senha}
-        secureTextEntry 
-      />
-      <TextInput
-        placeholder="Confira sua senha"
-        onChangeText={setRepetirSenha}
-        value={repetirsenha}
-        secureTextEntry 
-      />
-      <View style={{
+    <Surface style={styles.container}>
+      <View style={styles.innerContainer}>
+        <Text variant="headlineSmall">Faça seu Registro</Text>
+        <TextInput
+          placeholder="Digite seu nome"
+          value={nome}
+          onChangeText={setNome}
+          style={styles.input}
+          error={erro.nome}
+        />
+        <TextInput
+          placeholder="Digite seu email"
+          value={email}
+          onChangeText={setEmail}
+          style={styles.input}
+          error={erro.email}
+        />
+        <TextInput
+          placeholder="Digite sua senha"
+          value={senha}
+          onChangeText={setSenha}
+          secureTextEntry
+          style={styles.input}
+          error={erro.senha}
+        />
+        <TextInput
+          placeholder="Repita sua senha"
+          value={repetirSenha}
+          onChangeText={setRepetirSenha}
+          secureTextEntry
+          style={styles.input}
+          error={erro.repetirSenha}
+        />
+        <View
+          style={{
             paddingVertical: 20,
-          }}>
-        <Text>Dados pessoais</Text>
-      
-      <TextInput
-        placeholder="Logradouro"
-        onChangeText={setLogradouro}
-        value={logradouro} 
-      />
-      <TextInput
-        placeholder="CEP"
-        onChangeText={setCep}
-        value={cep} 
-      />
-      <TextInput
-        placeholder="Cidade"
-        onChangeText={setCidade}
-        value={cidade} 
-      />
-      <TextInput
-        placeholder="Estado"
-        onChangeText={setEstado}
-        value={estado} 
-      />
+          }}
+        >
+          <Text variant="headlineSmall">Dados pessoais</Text>
+          <TextInput
+            placeholder="Digite seu CEP (somente números)"
+            value={cep}
+            onChangeText={setCep}
+            onBlur={buscaCEP} 
+            keyboardType="numeric" 
+            style={styles.input}
+            maxLength={8}
+            error={erro.cep}
+          />
+          <TextInput
+            placeholder="Logradouro"
+            value={logradouro}
+            onChangeText={setLogradouro}
+            style={styles.input}
+            error={erro.logradouro}
+          />
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+            }}
+          >
+            <TextInput
+              placeholder="Cidade"
+              value={cidade}
+              onChangeText={setCidade}
+              style={{
+                ...styles.input, // utilização do spread operator ou operador de propagação
+                width: "70%",
+              }}
+              error={erro.cidade}
+            />
+            <TextInput
+              placeholder="Estado"
+              value={estado}
+              onChangeText={setEstado}
+              style={{
+                ...styles.input,
+                width: "30%",
+              }}
+              maxLength={2} // máximo de 2 caracteres
+              error={erro.estado}
+            />
+          </View>
+        </View>
+        <Button onPress={realizaRegistro} mode="outlined">
+          Registrar
+        </Button>
+        <Button onPress={() => navigation.navigate("LoginScreen")}>
+          Voltar ao login
+        </Button>
       </View>
-      <Button onPress={realizaCadastro}>Cadastrar</Button>
-      <Button onPress={() => navigation.navigate("LoginScreen")}>
-        Faça seu Login
-      </Button>
-    </View>
+    </Surface>
   );
 }
