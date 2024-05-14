@@ -1,12 +1,14 @@
-import { View } from "react-native";
-import { Button, Text } from "react-native-paper";
+import { Button, Text, Surface } from "react-native-paper";
+import { styles } from "../config/styles";
 
 export default function HomeScreen({ navigation }) {
   return (
-    <View>
+    
+     <Surface style={styles.container}>
       <pre>
       <Text>Bem vinda(o) ao nosso app</Text>
       </pre>
+      
       <Button
         onPress={() => {
           navigation.navigate("LoginScreen");
@@ -15,6 +17,6 @@ export default function HomeScreen({ navigation }) {
       >
         Login
       </Button>
-    </View>
+      </Surface>
   );
 }

@@ -1,6 +1,6 @@
-import { MD3DarkTheme, MD3LightTheme } from "react-native-paper";
+//import { MD3DarkTheme, MD3LightTheme } from "react-native-paper";
 
-export const themeLight = {
+/*export const themeLight = {
   ...MD3LightTheme,
   colors: {
     primary: "rgb(56, 107, 1)",
@@ -92,3 +92,4 @@ export const themeDark = {
     backdrop: "rgba(45, 49, 56, 0.4)",
   },
 };
+*/

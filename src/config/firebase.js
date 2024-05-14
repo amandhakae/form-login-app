@@ -1,16 +1,17 @@
 import { initializeApp } from "firebase/app";
-import {getAuth} from "firebase/auth";
-import {getFirestore} from "firebase/firestore";
+import { getAuth } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyA0i5a3qhreDFBedMEp5OS9w0Tzly-8mMw",
-  authDomain: "applogin-e5897.firebaseapp.com",
-  projectId: "applogin-e5897",
-  storageBucket: "applogin-e5897.appspot.com",
-  messagingSenderId: "512767094278",
-  appId: "1:512767094278:web:137e6502a21a95062e5d87"
+  apiKey: "AIzaSyCyKiFP5bgvOtW01mo-DVKnw0lcumj3NCs",
+  authDomain: "apploginamanda.firebaseapp.com",
+  projectId: "apploginamanda",
+  storageBucket: "apploginamanda.appspot.com",
+  messagingSenderId: "601869736179",
+  appId: "1:601869736179:web:8c18fe641f1609d9403f86",
+  measurementId: "G-QSND1MY34G"
 };
 
 const app = initializeApp(firebaseConfig);
-export const auth = getAuth(app);
-export const db = getFirestore(app);
+export const auth = getAuth(app); 
+export const db = getFirestore(app); 

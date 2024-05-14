@@ -2,6 +2,8 @@ import { View } from "react-native";
 import { Button, Surface, Text, TextInput } from "react-native-paper";
 import { useState } from "react";
 import { styles } from "../config/styles";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../config/firebase";
 
 export default function RegisterScreen({ navigation }) {
   const [email, setEmail] = useState("");
@@ -21,7 +23,7 @@ export default function RegisterScreen({ navigation }) {
     cidade: false,
     estado: false,
   });
- 
+  
   function realizaRegistro() {
     console.log("Fazer Registro");
 
@@ -59,14 +61,25 @@ export default function RegisterScreen({ navigation }) {
       setErro({ ...erro, estado: true });
       return;
     }
+    setErro({ ...erro, estado: false });
+
     if (senha !== repetirSenha) {
       setErro({ ...erro, senha: true, repetirSenha: true });
       return;
     }
-    // 3) Enviar os dados para a API do Firestore junto ao Firebase Auth
-    // 4) Tratar os erros
-    // 5) Redirecionar para a tela de Login
-  }setErro({ ...erro, estado: false });
+    setErro({ ...erro, senha: false, repetirSenha: false });
+   cadastrarNoFirebase();
+  }
+
+    async function cadastrarNoFirebase(){
+      try{
+          const userCredential = await createUserWithEmailAndPassword(auth, email, senha);
+          const user = userCredential.user;
+          console.log("Usuário cadastrado", user)
+        } catch (error) {
+          console.log(error);
+      }
+    }
 
   function buscaCEP() {
     console.log("Busca CEP");
@@ -127,13 +140,13 @@ export default function RegisterScreen({ navigation }) {
         >
           <Text variant="headlineSmall">Dados pessoais</Text>
           <TextInput
-            placeholder="Digite seu CEP (somente números)"
+            placeholder="Digite seu CEP"
             value={cep}
             onChangeText={setCep}
             onBlur={buscaCEP} 
             keyboardType="numeric" 
             style={styles.input}
-            maxLength={8}
+            maxLength={8} 
             error={erro.cep}
           />
           <TextInput
@@ -154,7 +167,7 @@ export default function RegisterScreen({ navigation }) {
               value={cidade}
               onChangeText={setCidade}
               style={{
-                ...styles.input, // utilização do spread operator ou operador de propagação
+                ...styles.input, 
                 width: "70%",
               }}
               error={erro.cidade}
@@ -167,7 +180,7 @@ export default function RegisterScreen({ navigation }) {
                 ...styles.input,
                 width: "30%",
               }}
-              maxLength={2} // máximo de 2 caracteres
+              maxLength={2} 
               error={erro.estado}
             />
           </View>
