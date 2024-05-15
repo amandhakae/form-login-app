@@ -28,11 +28,11 @@ export default function LoginScreen({ navigation }) {
   return (
     <Surface style={styles.container}>
       <View style={styles.Containerlogo}>
-      <div><br></br><br></br><br></br>
-      <img src="assets/logo.png" style={{
+      <div>
+      <img src="assets/logo1.png" style={{
             textAlign: "center"
-          }}width={110}
-             height={75}></img>
+          }}width={500}
+             height={380}></img>
      </div>
      </View>
        
@@ -61,7 +61,7 @@ export default function LoginScreen({ navigation }) {
           style={styles.input}
           error={erro.senha}
         />
-        <View>
+        <View><br></br>
           <Button onPress={realizaLogin} mode="contained" style={{backgroundColor:"#a547bf"}}>
             Fazer Login
           </Button>

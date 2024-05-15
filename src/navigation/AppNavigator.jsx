@@ -10,11 +10,12 @@ export default function AppNavigator() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-      <Stack.Screen
+        <Stack.Screen
           name="HomeScreen"
           component={HomeScreen}
           options={{
             title: "Inicial",
+            headerShown: false,
           }}
         />
         <Stack.Screen
@@ -31,7 +32,7 @@ export default function AppNavigator() {
             title: "Inicial",
           }}
         />
-        
+
       </Stack.Navigator>
     </NavigationContainer>
   );

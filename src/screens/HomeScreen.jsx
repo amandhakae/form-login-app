@@ -1,22 +1,32 @@
+import { Image } from "expo-image";
+import { useEffect } from "react";
+import { View } from "react-native";
 import { Button, Text, Surface } from "react-native-paper";
 import { styles } from "../config/styles";
 
 export default function HomeScreen({ navigation }) {
+
+  useEffect(() => {
+
+    setTimeout(() => {
+      navigation.navigate("LoginScreen")
+    }, 1000)
+
+  }, [])
+
   return (
-    
-     <Surface style={styles.container}>
-      <pre>
-      <Text>Bem vinda(o) ao nosso app</Text>
-      </pre>
-      
-      <Button
-        onPress={() => {
-          navigation.navigate("LoginScreen");
-        }}
-        mode="contained"
-      >
-        Login
-      </Button>
-      </Surface>
+
+
+    <Surface style={styles.container}>
+      <View style={styles.innerContainer} >
+        <Image
+
+
+          source={require("./../../assets/logo.png")}
+          style={{ width: 150, height: 100 }}
+        />
+      </View>
+
+    </Surface >
   );
 }
