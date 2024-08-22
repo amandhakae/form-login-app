@@ -29,7 +29,7 @@ export default function RegisterScreen({ navigation }) {
     setErro({ ...erro, nome: false });
     if (email === "") {
       setErro({ ...erro, email: true });
-      return;
+      return
     }
     setErro({ ...erro, email: false });
     if (senha === "") {
@@ -80,7 +80,15 @@ export default function RegisterScreen({ navigation }) {
   return (
     <Surface style={styles.container}>
       <View style={styles.innerContainer}>
-        <Text variant="headlineSmall">Faça seu Registro</Text>
+      <View style={styles.ContainerForm1}>
+        <Text
+          variant="headlineMedium"
+          style={{
+            textAlign: "center",
+            marginBottom: 20,
+          }}
+        ><br></br>Faça seu Registro</Text>
+        
         <TextInput
           placeholder="Digite seu nome"
           value={nome}
@@ -88,6 +96,7 @@ export default function RegisterScreen({ navigation }) {
           style={styles.input}
           error={erro.nome}
         />
+         
         <TextInput
           placeholder="Digite seu email"
           value={email}
@@ -111,12 +120,6 @@ export default function RegisterScreen({ navigation }) {
           style={styles.input}
           error={erro.repetirSenha}
         />
-        <View
-          style={{
-            paddingVertical: 20,
-          }}
-        >
-          <Text variant="headlineSmall">Outros Dados </Text>
           <TextInput
             placeholder="Digite sua Escola"
             value={escola}
@@ -126,13 +129,13 @@ export default function RegisterScreen({ navigation }) {
             error={erro.escola}
           />
           
-          </View>
-        <Button onPress={realizaRegistro} mode="outlined">
+        <Button onPress={realizaRegistro} style={{backgroundColor:"#a547bf"}} mode="outlined">
           Registrar
         </Button>
         <Button onPress={() => navigation.navigate("LoginScreen")}>
           Voltar ao login
         </Button>
+      </View>
       </View>
     </Surface>
   );

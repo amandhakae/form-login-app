@@ -23,27 +23,33 @@ export default function LoginScreen({ navigation }) {
     } else {
       setErro({ ...erro, senha: false });
     }
+
+    
+    if (email !== "" && senha !== "") {
+
+      navigation.navigate("HomeScreen");
+    }
   }
 
   return (
     <Surface style={styles.container}>
       <View style={styles.Containerlogo}>
-      <div>
-      <img src="assets/logo1.png" style={{
-            textAlign: "center"
-          }}width={500}
-             height={380}></img>
-     </div>
-     </View>
-       
-       <View style={styles.ContainerForm}>
+        <div>
+          <img
+            src="assets/logo1.png"
+            style={{ textAlign: "center" }}
+            width={500}
+            height={380}
+          />
+        </div>
+      </View>
+
+      <View style={styles.ContainerForm}>
         <Text
           variant="headlineMedium"
-          style={{
-            textAlign: "center",
-            marginBottom: 20,
-          }}
-        ><br></br>
+          style={{ textAlign: "center", marginBottom: 20 }}
+        >
+          <br />
           Login
         </Text>
         <TextInput
@@ -57,21 +63,27 @@ export default function LoginScreen({ navigation }) {
           placeholder="Digite sua senha"
           onChangeText={setSenha}
           value={senha}
-          secureTextEntry 
+          secureTextEntry
           style={styles.input}
           error={erro.senha}
         />
-        <View><br></br>
-          <Button onPress={realizaLogin} mode="contained" style={{backgroundColor:"#a547bf"}}>
+        <View>
+          <br />
+          <Button
+            onPress={realizaLogin}
+            mode="contained"
+            style={{ backgroundColor: "#a547bf" }}
+          >
             Fazer Login
           </Button>
         </View>
-        <Button onPress={() => navigation.navigate("RegisterScreen")} style={{color:(165, 71, 191)}}>
+        <Button
+          onPress={() => navigation.navigate("RegisterScreen")}
+          style={{ color: "#a547bf" }}
+        >
           Faça seu cadastro
         </Button>
-        </View>
-      
+      </View>
     </Surface>
-    
   );
 }

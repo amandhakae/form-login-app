@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import { TextInput } from "react-native-paper";
 
 export const styles = StyleSheet.create({
   container: {
@@ -31,9 +32,17 @@ export const styles = StyleSheet.create({
     borderTopLeftRadius: 50,
     borrdeTopRightRadius: 0,
     width: "100%",
-    // paddingStart: "30%",
-    // paddingEnd: "20%",
     paddingHorizontal: 60,
+    backgroundColor: "#FFF",
+    alignItems: "center",
+
+  },
+  ContainerForm1: {
+    flex: 1,
+    borderTopLeftRadius: 50,
+    borrdeTopRightRadius: 0,
+    width: "100%",
+    paddingHorizontal: 80,
     backgroundColor: "#FFF",
     alignItems: "center",
 
@@ -42,6 +51,21 @@ export const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-  }
-
+  },
+  Button:{
+    fontColor: "#FFF",
+  
+  },
+  input: {
+    backgroundColor: 'white',
+    color: 'black',  
+    marginBottom: 10,
+    width: "100%"
+  },
+  text: {
+    color: 'black',  
+  },
+  buttonText: {
+    color: 'black', 
+  },
 });

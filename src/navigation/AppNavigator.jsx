@@ -3,6 +3,16 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import LoginScreen from "../screens/LoginScreen";
 import HomeScreen from "../screens/HomeScreen";
 import RegisterScreen from "../screens/RegisterScreen";
+import SplashScreen from "../screens/SplashScreen";
+import BankScreen from "../screens/BankScreen";
+import AppScreen from "../screens/AppScreen";
+import EventsScreen from "../screens/EventsScreen";
+import PerfilScreen from "../screens/PerfilScreen";
+import EventDetails from "../screens/EventDetails";
+import PixScreen from "../screens/PixScreen";
+import TransferirScreen from "../screens/TransferirScreen";
+import PagarScreen from "../screens/PagarScreen";
+import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 
 const Stack = createNativeStackNavigator();
 
@@ -32,8 +42,77 @@ export default function AppNavigator() {
             title: "Inicial",
           }}
         />
+          <Stack.Screen
+          name="BankScreen"
+          component={BankScreen}
+          options={{
+            title: "Banco",
+          }}
+        />
+         <Stack.Screen
+          name="AppScreen"
+          component={AppScreen}
+          options={{
+            title: "App",
+          }}
+        />
+          <Stack.Screen
+          name="EventsScreen"
+          component={EventsScreen}
+          options={{
+            title: "Eventos",
+          }}
+        />
+          <Stack.Screen
+          name="EventDetails"
+          component={EventDetails}
+          options={{
+            title: "Detalhes dos Eventos",
+          }}
+        />
+         <Stack.Screen
+          name="PerfilScreen"
+          component={PerfilScreen}
+          options={{
+            title: "Perfil",
+          }}
+        />
+        <Stack.Screen
+          name="PixScreen"
+          component={PixScreen}
+          options={{
+            title: "Pix",
+          }}
+        />
+        <Stack.Screen
+          name="PagarScreen"
+          component={PagarScreen}
+          options={{
+            title: "Pagar",
+          }}
+        />
+        <Stack.Screen
+          name="TransferirScreen"
+          component={TransferirScreen}
+          options={{
+            title: "Transferir",
+          }}
+        />
+        
+        
 
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
+
+const Tabs = createMaterialBottomTabNavigator();
+
+export function TabsNavigation() {
+  return (
+    <Tabs.Navigator>
+      <Tabs.Screen name="Home" component={HomeScreen} />
+    </Tabs.Navigator>
+  );
+}
+

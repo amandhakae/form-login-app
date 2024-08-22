@@ -1,17 +1,17 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCyKiFP5bgvOtW01mo-DVKnw0lcumj3NCs",
-  authDomain: "apploginamanda.firebaseapp.com",
-  projectId: "apploginamanda",
-  storageBucket: "apploginamanda.appspot.com",
-  messagingSenderId: "601869736179",
-  appId: "1:601869736179:web:8c18fe641f1609d9403f86",
-  measurementId: "G-QSND1MY34G"
+  apiKey: "AIzaSyAX6ZNotnLRK5ukiVuweqRYbPtPzINBGjo",
+  authDomain: "form-login-app-3348f.firebaseapp.com",
+  projectId: "form-login-app-3348f",
+  storageBucket: "form-login-app-3348f.appspot.com",
+  messagingSenderId: "1009114559152",
+  appId: "1:1009114559152:web:539bfae8860a7eb6278175",
+  measurementId: "G-L0ZVX0RRZN"
 };
 
 const app = initializeApp(firebaseConfig);
-export const auth = getAuth(app); 
-export const db = getFirestore(app); 
+const auth = getAuth(app);
+
+export {auth};
