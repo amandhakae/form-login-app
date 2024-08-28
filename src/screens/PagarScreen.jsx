@@ -7,7 +7,7 @@ export default function PaymentScreen({ navigation }) {
   const [paymentAmount, setPaymentAmount] = useState('');
   const [paymentDescription, setPaymentDescription] = useState('');
   const [transactionStatus, setTransactionStatus] = useState(null);
-  const [balance, setBalance] = useState(0); // Inicialmente 0, será carregado do AsyncStorage
+  const [balance, setBalance] = useState(0);
 
   useEffect(() => {
     const loadBalance = async () => {
@@ -16,7 +16,7 @@ export default function PaymentScreen({ navigation }) {
         if (storedBalance !== null) {
           setBalance(parseFloat(storedBalance));
         } else {
-          setBalance(1356.00); // Saldo inicial padrão
+          setBalance(1356.00); 
         }
       } catch (error) {
         console.error('Erro ao carregar o saldo:', error);
@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#f5f5f5',
   },
   header: {
-    backgroundColor: '#5e2c80',
+    backgroundColor: '#a547bf', // Cor atualizada
     padding: 20,
     borderRadius: 10,
     marginBottom: 20,
@@ -106,5 +106,35 @@ const styles = StyleSheet.create({
   inputContainer: {
     flex: 1,
     justifyContent: 'center',
-},
+  },
+  input: {
+    marginBottom: 15,
+    backgroundColor: '#fff',
+  },
+  button: {
+    marginVertical: 10,
+    backgroundColor: '#a547bf', // Cor do botão
+  },
+  status: {
+    marginVertical: 10,
+    color: '#a547bf', // Cor do status
+    textAlign: 'center',
+  },
+  balanceContainer: {
+    marginTop: 20,
+    alignItems: 'center',
+  },
+  balanceLabel: {
+    fontSize: 16,
+    color: '#333',
+  },
+  balanceAmount: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#a547bf', // Cor do saldo
+  },
+  bottomActions: {
+    marginTop: 20,
+    alignItems: 'center',
+  },
 });

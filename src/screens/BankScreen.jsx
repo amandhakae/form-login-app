@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Surface, Text, Button, TextInput } from 'react-native-paper';
-import { View, StyleSheet } from 'react-native';
+import { Surface, Text, Button } from 'react-native-paper';
+import { View, StyleSheet, ScrollView } from 'react-native';
 
 export default function BankScreen({ navigation }) {
   const [balance, setBalance] = useState(1356.00); // Saldo inicial inspirado na imagem
@@ -28,35 +28,37 @@ export default function BankScreen({ navigation }) {
 
   return (
     <Surface style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.companyName}>HM Food Cafe</Text>
-      </View>
-      <View style={styles.accountContainer}>
-        <Text style={styles.accountLabel}>Conta PJ</Text>
-        <Text style={styles.balance}>R$ {balance.toFixed(2)}</Text>
-      </View>
-      <View style={styles.actionContainer}>
-        <Button mode="text" icon="bank-transfer" onPress={() => navigation.navigate("PixScreen")}>
-          Área Pix
-        </Button>
-        <Button mode="text" icon="barcode" onPress={() => navigation.navigate("PagarScreen")}>
-          Pagar
-        </Button>
-        <Button mode="text" icon="arrow-right-bold" onPress={() => navigation.navigate("TransferirScreen")}>
-          Transferir
-        </Button>
-      </View>
-      <View style={styles.cardContainer}>
-        <Text style={styles.cardLabel}>Cartão de crédito</Text>
-        <Text style={styles.cardBalance}>Fatura atual</Text>
-        <Text style={styles.cardAmount}>R$ {creditCardBalance.toFixed(2)}</Text>
-        <Text style={styles.cardLimit}>Limite disponível: R$ {creditCardLimit.toFixed(2)}</Text>
-      </View>
-      <View style={styles.bottomActions}>
-      <Button onPress={() => navigation.navigate("HomeScreen")} mode="contained">
-          Voltar
-        </Button>
-      </View>
+      <ScrollView contentContainerStyle={styles.scrollViewContent}>
+        <View style={styles.header}>
+          <Text style={styles.companyName}>UnicForm </Text>
+        </View>
+        <View style={styles.accountContainer}>
+          <Text style={styles.accountLabel}>Conta</Text>
+          <Text style={styles.balance}>R$ {balance.toFixed(2)}</Text>
+        </View>
+        <View style={styles.actionContainer}>
+          <Button mode="text" icon="bank-transfer" onPress={() => navigation.navigate("PixScreen")}>
+            Área Pix
+          </Button>
+          <Button mode="text" icon="barcode" onPress={() => navigation.navigate("PagarScreen")}>
+            Pagar
+          </Button>
+          <Button mode="text" icon="arrow-right-bold" onPress={() => navigation.navigate("TransferirScreen")}>
+            Transferir
+          </Button>
+        </View>
+        <View style={styles.cardContainer}>
+          <Text style={styles.cardLabel}>Cartão de crédito</Text>
+          <Text style={styles.cardBalance}>Fatura atual</Text>
+          <Text style={styles.cardAmount}>R$ {creditCardBalance.toFixed(2)}</Text>
+          <Text style={styles.cardLimit}>Limite disponível: R$ {creditCardLimit.toFixed(2)}</Text>
+        </View>
+        <View style={styles.bottomActions}>
+          <Button onPress={() => navigation.navigate("HomeScreen")} mode="contained">
+            Voltar
+          </Button>
+        </View>
+      </ScrollView>
     </Surface>
   );
 }
@@ -64,8 +66,11 @@ export default function BankScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
     backgroundColor: '#fff',
+  },
+  scrollViewContent: {
+    padding: 20,
+    paddingBottom: 40, // Adiciona um pouco de espaço no final do conteúdo
   },
   header: {
     backgroundColor: '#5e2c80',
@@ -132,3 +137,4 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 });
+

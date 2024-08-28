@@ -24,9 +24,7 @@ export default function LoginScreen({ navigation }) {
       setErro({ ...erro, senha: false });
     }
 
-    
     if (email !== "" && senha !== "") {
-
       navigation.navigate("HomeScreen");
     }
   }
@@ -34,12 +32,13 @@ export default function LoginScreen({ navigation }) {
   return (
     <Surface style={styles.container}>
       <View style={styles.Containerlogo}>
+        {/* Utlizar o Expo-image  */}
         <div>
           <img
             src="assets/logo1.png"
             style={{ textAlign: "center" }}
-            width={500}
-            height={380}
+            width={"100%"}
+            // height={380}
           />
         </div>
       </View>

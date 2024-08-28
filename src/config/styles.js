@@ -6,7 +6,7 @@ export const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#a547bf"
+    backgroundColor: "#a547bf",
   },
   innerContainer: {
     paddingHorizontal: 20,
@@ -14,13 +14,12 @@ export const styles = StyleSheet.create({
     backgroundColor: "#a547bf",
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#a547bf"
+    backgroundColor: "#a547bf",
   },
   input: {
     marginBottom: 10,
     backgroundColor: "#d9d9d9",
-    width: "100%"
-
+    width: "100%",
   },
   img: {
     alignItems: "center",
@@ -35,7 +34,6 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 60,
     backgroundColor: "#FFF",
     alignItems: "center",
-
   },
   ContainerForm1: {
     flex: 1,
@@ -45,27 +43,25 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 80,
     backgroundColor: "#FFF",
     alignItems: "center",
-
   },
   Containerlogo: {
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
   },
-  Button:{
+  Button: {
     fontColor: "#FFF",
-  
   },
   input: {
-    backgroundColor: 'white',
-    color: 'black',  
+    backgroundColor: "white",
+    color: "black",
     marginBottom: 10,
-    width: "100%"
+    width: "100%",
   },
   text: {
-    color: 'black',  
+    color: "black",
   },
   buttonText: {
-    color: 'black', 
+    color: "black",
   },
 });

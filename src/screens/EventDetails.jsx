@@ -7,32 +7,32 @@ const getAdditionalImages = (eventId) => {
   switch (eventId) {
     case '1':
       return [
-        require('./assets/img/image.png'),
-        require('./assets/img/image.png'),
-        require('./assets/img/image.png'),
-        require('./assets/img/image.png'),
+        require('../../assets/img/diad.png'),
+        require('../../assets/img/diad.png'),
+        require('../../assets/img/diad.png'),
+        require('../../assets/img/diad.png'),
       ];
     case '2':
       return [
-        require('./assets/img/diad.png'),
-        require('./assets/img/event2_image2.png'),
-        require('./assets/img/event2_image3.png'),
-        require('./assets/img/event2_image4.png'),
+        require('../../assets/img/diad.png'),
+        require('../../assets/img/diad.png'),
+        require('../../assets/img/diad.png'),
+        require('../../assets/img/diad.png'),
       ];
     // Adicione mais casos conforme necessário
     default:
       return [
-        require('./assets/img/arraia.png'),
-        require('./assets/img/default_image2.png'),
-        require('./assets/img/default_image3.png'),
-        require('./assets/img/default_image4.png'),
+        require('../../assets/img/diad.png'),
+        require('../../assets/img/diad.png'),
+        require('../../assets/img/diad.png'),
+        require('../../assets/img/diad.png'),
       ];
   }
 };
 
 export default function EventDetailsScreen({ route, navigation }) {
   const { event } = route.params;
-  const additionalImages = getAdditionalImages(event.id); // Use o ID do evento para obter as imagens corretas
+  const additionalImages = getAdditionalImages(event.id); // Assumindo que o ID do evento está sendo passado corretamente
 
   return (
     <Surface style={styles.container}>
@@ -47,6 +47,7 @@ export default function EventDetailsScreen({ route, navigation }) {
         <Text style={styles.subtitle}>{event.subtitle}</Text>
         <Text style={styles.date}>{event.date}</Text>
         <Text style={styles.description}>{event.description}</Text>
+        <Text style={styles.moreInfo}>{event.moreInfo}</Text> {/* Exibir mais informações */}
       </View>
       <ScrollView>
         <View style={styles.photosContainer}>
@@ -118,8 +119,13 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#333',
   },
+  moreInfo: {
+    fontSize: 16,
+    color: '#555',
+    marginTop: 10,
+  },
   photosContainer: {
-    marginVertical: 16,
+    marginTop: 20,
   },
   topRow: {
     flexDirection: 'row',
@@ -141,8 +147,12 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   button: {
-    marginTop: 16,
+    position: 'absolute',
+    bottom: 20,
+    left: 16,
+    right: 16,
     borderRadius: 30,
     backgroundColor: '#6200EE',
+    paddingVertical: 10,
   },
 });

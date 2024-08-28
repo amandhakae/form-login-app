@@ -12,6 +12,9 @@ import EventDetails from "../screens/EventDetails";
 import PixScreen from "../screens/PixScreen";
 import TransferirScreen from "../screens/TransferirScreen";
 import PagarScreen from "../screens/PagarScreen";
+import PagarScreen from "../screens/PagarScreen";
+import ConfiguraçãoScreen from "../screens/ConfiguraçãoScreen";
+
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 
 const Stack = createNativeStackNavigator();
@@ -98,7 +101,13 @@ export default function AppNavigator() {
             title: "Transferir",
           }}
         />
-        
+        <Stack.Screen
+          name="ConfiguraçãoScreen"
+          component={ConfiguraçãoScreen}
+          options={{
+            title: "Configuração",
+          }}
+        />
         
 
       </Stack.Navigator>

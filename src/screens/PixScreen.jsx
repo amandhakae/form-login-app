@@ -74,19 +74,28 @@ export default function PixScreen({ navigation }) {
           <Button
             mode={pixType === 'send' ? 'contained' : 'outlined'}
             onPress={() => setPixType('send')}
-            style={styles.radioButton}
+            style={[styles.radioButton, pixType === 'send' && styles.radioButtonActive]}
+            color={pixType === 'send' ? '#fff' : '#a547bf'} // Cor do texto do botão
+            contentStyle={styles.buttonContent} // Adiciona padding
           >
             Enviar
           </Button>
           <Button
             mode={pixType === 'receive' ? 'contained' : 'outlined'}
             onPress={() => setPixType('receive')}
-            style={styles.radioButton}
+            style={[styles.radioButton, styles.radioButtonReceive, pixType === 'receive' && styles.radioButtonActive]}
+            color={pixType === 'receive' ? '#fff' : '#a547bf'} // Cor do texto do botão
+            contentStyle={styles.buttonContent} // Adiciona padding
           >
             Receber
           </Button>
         </View>
-        <Button mode="contained" onPress={handlePixTransaction} style={styles.button}>
+        <Button
+          mode="contained"
+          onPress={handlePixTransaction}
+          style={styles.button}
+          color="#fff" // Cor do texto do botão
+        >
           {pixType === 'send' ? 'Enviar Pix' : 'Receber Pix'}
         </Button>
         {transactionStatus && (
@@ -98,7 +107,12 @@ export default function PixScreen({ navigation }) {
         <Text style={styles.balanceAmount}>R$ {balance.toFixed(2)}</Text>
       </View>
       <View style={styles.bottomActions}>
-        <Button mode="contained" onPress={() => navigation.goBack()}>
+        <Button
+          mode="contained"
+          onPress={() => navigation.goBack()}
+          style={styles.bottomButton}
+          color="#fff" // Cor do texto do botão
+        >
           Voltar
         </Button>
       </View>
@@ -113,7 +127,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#f5f5f5',
   },
   header: {
-    backgroundColor: '#5e2c80',
+    backgroundColor: '#a547bf', // Cor do cabeçalho
     padding: 20,
     borderRadius: 10,
     marginBottom: 20,
@@ -133,16 +147,31 @@ const styles = StyleSheet.create({
   },
   radioGroup: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    justifyContent: 'space-between', // Ajusta a distribuição dos botões
     marginBottom: 20,
   },
   radioButton: {
     flex: 1,
     marginHorizontal: 5,
+    borderRadius: 5, // Adiciona borda arredondada
+    height: 50, // Altura do botão
+  },
+  radioButtonActive: {
+    backgroundColor: '#a547bf', // Cor de fundo do botão ativo
+  },
+  radioButtonReceive: {
+    backgroundColor: '#a547bf',
+    fontColor: '#fff'
+    
   },
   button: {
     marginTop: 10,
-    backgroundColor: '#5e2c80',
+    backgroundColor: '#a547bf', // Cor do botão
+    height: 50, // Altura do botão
+    borderRadius: 5, // Adiciona borda arredondada
+  },
+  buttonContent: {
+    paddingVertical: 8, // Adiciona padding vertical aos botões
   },
   status: {
     marginTop: 20,
@@ -165,12 +194,15 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   balanceAmount: {
-    color: '#000',
+    color: '#a547bf', // Cor do saldo
     fontSize: 24,
     fontWeight: 'bold',
   },
   bottomActions: {
     marginTop: 20,
     alignItems: 'center',
+  },
+  bottomButton: {
+    backgroundColor: '#a547bf', // Cor do botão "Voltar"
   },
 });
