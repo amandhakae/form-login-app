@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { View, StyleSheet, ScrollView } from 'react-native';
+import { Button, TextInput, Title, Card, Paragraph } from 'react-native-paper';
 
 const Settings = () => {
   const [username, setUsername] = useState('Jane Doe');
@@ -8,13 +10,13 @@ const Settings = () => {
   const [confirmNewPassword, setConfirmNewPassword] = useState('');
 
   const handleSaveProfile = () => {
-    // Logica para salvar as alterações do perfil
+    // Logic to save profile changes
     alert('Perfil atualizado!');
   };
 
   const handleChangePassword = () => {
     if (newPassword === confirmNewPassword) {
-      // Logica para mudar a senha
+      // Logic to change password
       alert('Senha alterada com sucesso!');
     } else {
       alert('As senhas não coincidem!');
@@ -22,124 +24,103 @@ const Settings = () => {
   };
 
   return (
-    <div style={styles.container}>
-      <h1 style={styles.header}>Configurações</h1>
-      
-      <div style={styles.section}>
-        <h2 style={styles.sectionTitle}>Atualizar Perfil</h2>
-        <div style={styles.formGroup}>
-          <label style={styles.label}>Nome:</label>
-          <input
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            style={styles.input}
-          />
-        </div>
-        <div style={styles.formGroup}>
-          <label style={styles.label}>Email:</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            style={styles.input}
-          />
-        </div>
-        <button style={styles.buttonPrimary} onClick={handleSaveProfile}>
-          Salvar Perfil
-        </button>
-      </div>
+    <ScrollView contentContainerStyle={styles.container}>
+      <Title style={styles.header}>Configurações</Title>
 
-      <div style={styles.section}>
-        <h2 style={styles.sectionTitle}>Alterar Senha</h2>
-        <div style={styles.formGroup}>
-          <label style={styles.label}>Senha Atual:</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            style={styles.input}
-          />
-        </div>
-        <div style={styles.formGroup}>
-          <label style={styles.label}>Nova Senha:</label>
-          <input
-            type="password"
-            value={newPassword}
-            onChange={(e) => setNewPassword(e.target.value)}
-            style={styles.input}
-          />
-        </div>
-        <div style={styles.formGroup}>
-          <label style={styles.label}>Confirmar Nova Senha:</label>
-          <input
-            type="password"
-            value={confirmNewPassword}
-            onChange={(e) => setConfirmNewPassword(e.target.value)}
-            style={styles.input}
-          />
-        </div>
-        <button style={styles.buttonPrimary} onClick={handleChangePassword}>
-          Alterar Senha
-        </button>
-      </div>
-    </div>
+      <Card style={styles.section}>
+        <Card.Content>
+          <Title style={styles.sectionTitle}>Atualizar Perfil</Title>
+          <View style={styles.formGroup}>
+            <TextInput
+              label="Nome"
+              value={username}
+              onChangeText={setUsername}
+              style={styles.input}
+            />
+          </View>
+          <View style={styles.formGroup}>
+            <TextInput
+              label="Email"
+              value={email}
+              onChangeText={setEmail}
+              style={styles.input}
+            />
+          </View>
+          <Button mode="contained" style={styles.buttonPrimary} onPress={handleSaveProfile}>
+            Salvar Perfil
+          </Button>
+        </Card.Content>
+      </Card>
+
+      <Card style={styles.section}>
+        <Card.Content>
+          <Title style={styles.sectionTitle}>Alterar Senha</Title>
+          <View style={styles.formGroup}>
+            <TextInput
+              label="Senha Atual"
+              value={password}
+              onChangeText={setPassword}
+              secureTextEntry
+              style={styles.input}
+            />
+          </View>
+          <View style={styles.formGroup}>
+            <TextInput
+              label="Nova Senha"
+              value={newPassword}
+              onChangeText={setNewPassword}
+              secureTextEntry
+              style={styles.input}
+            />
+          </View>
+          <View style={styles.formGroup}>
+            <TextInput
+              label="Confirmar Nova Senha"
+              value={confirmNewPassword}
+              onChangeText={setConfirmNewPassword}
+              secureTextEntry
+              style={styles.input}
+            />
+          </View>
+          <Button mode="contained" style={styles.buttonPrimary} onPress={handleChangePassword}>
+            Alterar Senha
+          </Button>
+        </Card.Content>
+      </Card>
+    </ScrollView>
   );
 };
 
-const styles = {
+const styles = StyleSheet.create({
   container: {
-    fontFamily: 'Arial, sans-serif',
-    padding: '20px',
-    maxWidth: '500px',
-    margin: '0 auto',
+    flexGrow: 1,
+    padding: 20,
     backgroundColor: '#f0f0f0',
-    borderRadius: '15px',
-    boxShadow: '0 0 15px rgba(0,0,0,0.1)',
-    height: '100vh',
-    overflowY: 'scroll',
   },
   header: {
     textAlign: 'center',
-    marginBottom: '20px',
+    marginBottom: 20,
   },
   section: {
+    marginBottom: 20,
     backgroundColor: '#fff',
-    padding: '15px',
-    borderRadius: '10px',
-    boxShadow: '0 0 10px rgba(0,0,0,0.1)',
-    marginBottom: '20px',
+    borderRadius: 10,
+    elevation: 3,
   },
   sectionTitle: {
-    marginBottom: '10px',
-    fontSize: '18px',
+    marginBottom: 10,
+    fontSize: 18,
     fontWeight: 'bold',
   },
   formGroup: {
-    marginBottom: '15px',
-  },
-  label: {
-    display: 'block',
-    marginBottom: '5px',
-    fontWeight: 'bold',
+    marginBottom: 15,
   },
   input: {
-    width: '100%',
-    padding: '10px',
-    borderRadius: '5px',
-    border: '1px solid #ddd',
+    marginBottom: 10,
   },
   buttonPrimary: {
     backgroundColor: '#a547bf',
-    color: '#fff',
-    border: 'none',
-    padding: '10px 20px',
-    borderRadius: '5px',
-    cursor: 'pointer',
-    fontSize: '16px',
-    display: 'block',
-    margin: '0 auto',
   },
-};
+});
 
 export default Settings;

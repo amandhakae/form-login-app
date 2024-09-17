@@ -12,7 +12,6 @@ import EventDetails from "../screens/EventDetails";
 import PixScreen from "../screens/PixScreen";
 import TransferirScreen from "../screens/TransferirScreen";
 import PagarScreen from "../screens/PagarScreen";
-import PagarScreen from "../screens/PagarScreen";
 import ConfiguraçãoScreen from "../screens/ConfiguraçãoScreen";
 
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
@@ -23,12 +22,20 @@ export default function AppNavigator() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
+    
         <Stack.Screen
           name="HomeScreen"
           component={HomeScreen}
           options={{
-            title: "Inicial",
+            title: "home",
             headerShown: false,
+          }}
+        />
+         <Stack.Screen
+          name="EventsScreen"
+          component={EventsScreen}
+          options={{
+            title: "Inicial",
           }}
         />
         <Stack.Screen
@@ -59,13 +66,7 @@ export default function AppNavigator() {
             title: "App",
           }}
         />
-          <Stack.Screen
-          name="EventsScreen"
-          component={EventsScreen}
-          options={{
-            title: "Eventos",
-          }}
-        />
+     
           <Stack.Screen
           name="EventDetails"
           component={EventDetails}

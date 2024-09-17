@@ -1,155 +1,212 @@
-import React from "react";
-import { Surface, Text, Button, Card, IconButton } from "react-native-paper";
-import { View, ScrollView, StyleSheet } from "react-native";
+import React, { useState } from 'react';
+import { View, StyleSheet, ScrollView, Image, TextInput, TouchableOpacity, Alert } from 'react-native';
+import { Button, Surface, Text, IconButton, Dialog, Portal } from 'react-native-paper';
+import * as ImagePicker from 'expo-image-picker';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 export default function EventsScreen({ navigation }) {
-  const handleEventPress = (event) => {
-    navigation.navigate('EventDetails', { event });
+  const [eventName, setEventName] = useState('');
+  const [coverImage, setCoverImage] = useState(null);
+  const [description, setDescription] = useState('');
+  const [gallery, setGallery] = useState([]);
+  const [visible, setVisible] = useState(false);
+
+  const showDialog = () => setVisible(true);
+  const hideDialog = () => setVisible(false);
+
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      if (coverImage === null) {
+        setCoverImage(result.uri);
+      } else {
+        setGallery([...gallery, result.uri]);
+      }
+    }
   };
 
-  const events = [
-    {
-      id: '1',
-      title: "Terceiras Intenções 2024",
-      subtitle: "Luna Live, Joinville",
-      image: "assets/img/image.png",
-      date: "21 de junho de 2024",
-      description: "O Terceiras Intenções já tem data marcada e como todo ano a atração nacional é sensacional.",
-      icon: "laptop",
-      moreInfo: "O evento contará com várias atrações locais e um show especial de encerramento com Mc Livinho.Pista R$45,00, VIP R$65,00, Camarote R$160,00, Consumo R$350,00, Arrecadado R$11.000,00",
-    },
-    {
-      id: '2',
-      title: "Dia D Pijama Terceirão Bonja",
-      subtitle: "Colégio Bonja - Bom Jesus, Joinville",
-      image: "assets/img/diad.png",
-      date: "22 de agosto de 2024",
-      description: "Os alunos do Bonja passam por mais um dia D, neste mês será o Dia D Pijama!",
-      icon: "guitar-electric",
-      moreInfo: "Os alunos participarão de atividades recreativas e haverá um concurso de pijamas. Teremos prêmios para os melhores pijamas e muita diversão. Sonhos R$5,50, S'mores R$6,00, Pipoca R$2,50, Chocolate quente R$4,50, Combo S'more + Chocolate quente R$10,00, Arrecadado R$470,00",
-    },
-    {
-      id: '3',
-      title: "Arraiá Senac",
-      subtitle: "Faculdade Senac, Joinville",
-      image: "assets/img/arraia.png",
-      date: "12 de julho de 2024",
-      description: "Vai ter festança boa demais no Senac! Prepare o seu chapéu de palha e venha se divertir.",
-      icon: "leaf",
-      moreInfo: "Teremos barracas de comidas típicas, quadrilha, brincadeiras tradicionais, música ao vivo, e muito mais. Cachorro quente R$5,00, Pinhão R$3,00, Copo de refrigerante R$1,00, Churros R$6,00, Espetinho de carne R$10,00, Pipoca R$2,00, Maçã do amor R$8,00, Espetinho de morango R$10,00, Amendoim doce R$2,00, Suquentão R$3,00, Guloseima R$0,50, Prisão R$2,00, Prisão (funcionários) R$5,00, Pescaria R$2,00, Boca do palhaço R$2,00, Correio elegante R$2,00, Galinha na panela R$2,00, Arrecadado R$5.000,00",
-    },
-  ];
+  const handleSubmit = () => {
+    if (!eventName || !coverImage || !description) {
+      Alert.alert('Erro', 'Por favor, preencha todos os campos e adicione uma imagem de capa.');
+      return;
+    }
+
+    // Adicionar lógica para salvar o evento
+    Alert.alert('Sucesso', 'Evento criado com sucesso!');
+  };
 
   return (
     <Surface style={styles.container}>
-      <View style={styles.subtitleContainer}>
-        <Text style={styles.subtitle}>Confira os eventos mais recentes</Text>
-      </View>
+      <ScrollView contentContainerStyle={styles.innerContainer}>
+        <Text style={styles.title}>Eventos</Text>
 
-      <ScrollView contentContainerStyle={styles.eventsContainer}>
-        {events.map((event, index) => (
-          <Card key={index} style={styles.eventCard} onPress={() => handleEventPress(event)}>
-            <Card.Cover
-              source={{ uri: event.image }}
-              style={styles.cardImage}
-            />
-            <Card.Title
-              title={event.title}
-              subtitle={event.subtitle}
-              left={(props) => (
-                <IconButton
-                  {...props}
-                  icon={event.icon}
-                  style={styles.cardIcon}
-                />
-              )}
-              titleStyle={styles.cardTitle}
-              subtitleStyle={styles.cardSubtitle}
-            />
-            <Card.Content>
-              <Text style={styles.eventDate}>{event.date}</Text>
-              <Text style={styles.eventDescription}>{event.description}</Text>
-            </Card.Content>
-          </Card>
-        ))}
+        <Button mode="contained" onPress={pickImage} style={styles.imageButton}>
+          {coverImage ? (
+            <Image source={{ uri: coverImage }} style={styles.coverImage} />
+          ) : (
+            <Text>Selecionar Imagem de Capa</Text>
+          )}
+        </Button>
+
+        <TextInput
+          style={styles.input}
+          placeholder="Nome do Evento"
+          value={eventName}
+          onChangeText={setEventName}
+        />
+
+        <TextInput
+          style={[styles.input, styles.descriptionInput]}
+          placeholder="Descrição do Evento"
+          multiline
+          numberOfLines={4}
+          value={description}
+          onChangeText={setDescription}
+        />
+
+        <Button mode="contained" onPress={showDialog} style={styles.galleryButton}>
+          Adicionar Fotos à Galeria
+        </Button>
+
+        <View style={styles.galleryContainer}>
+          {gallery.map((uri, index) => (
+            <Image key={index} source={{ uri }} style={styles.galleryImage} />
+          ))}
+        </View>
+
+        <Button mode="contained" onPress={handleSubmit} style={styles.submitButton}>
+          Criar Evento
+        </Button>
       </ScrollView>
 
-      <Button
-        onPress={() => navigation.goBack()}
-        mode="contained"
-        style={styles.button}
-      >
-        Voltar
-      </Button>
+      <Portal>
+        <Dialog visible={visible} onDismiss={hideDialog}>
+          <Dialog.Title>Selecionar Foto</Dialog.Title>
+          <Dialog.Content>
+            <Button onPress={pickImage}>Escolher Imagem</Button>
+          </Dialog.Content>
+          <Dialog.Actions>
+            <Button onPress={hideDialog}>Cancelar</Button>
+          </Dialog.Actions>
+        </Dialog>
+      </Portal>
+
+      <View style={styles.footer}>
+        <Button
+          onPress={() => navigation.navigate("EventsScreen")}
+          mode="contained"
+          style={styles.footerButton}
+        >
+          <MaterialCommunityIcons name="calendar" size={24} color="#a547bf" />
+        </Button>
+
+        <Button
+          onPress={() => navigation.navigate("HomeScreen")}
+          mode="contained"
+          style={styles.footerButton}
+        >
+          <MaterialCommunityIcons name="home" size={24} color="#a547bf" />
+        </Button>
+
+        <Button
+          onPress={() => navigation.navigate("BankScreen")}
+          mode="contained"
+          style={styles.footerButton}
+        >
+          <MaterialCommunityIcons name="bank" size={24} color="#a547bf" />
+        </Button>
+      </View>
     </Surface>
+
+    
   );
 }
 
+
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#F5F5F5', // Cor de fundo suave
-  },
-  subtitleContainer: {
-    paddingHorizontal: 16,
-    marginVertical: 24, // Aumenta o espaço acima e abaixo do título
-    backgroundColor: '#6200EE',
-    borderRadius: 8,
-    paddingVertical: 12,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 6,
-    elevation: 4,
-  },
-  subtitle: {
-    fontSize: 16, // Reduz o tamanho da fonte
-    color: '#FFFFFF',
-    textAlign: 'center',
-    fontWeight: 'bold',
-  },
-  eventsContainer: {
-    paddingHorizontal: 16,
-    paddingBottom: 80, // Espaço adicional no final para o botão
-  },
-  eventCard: {
-    marginBottom: 20,
-    borderRadius: 10,
-    elevation: 6, // Sombra mais destacada
-    backgroundColor: '#FFFFFF', // Fundo do card branco
-  },
-  cardImage: {
-    borderTopLeftRadius: 10,
-    borderTopRightRadius: 10,
-  },
-  cardTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#333',
-  },
-  cardSubtitle: {
-    fontSize: 14,
-    color: '#888',
-  },
-  eventDate: {
-    fontSize: 16,
-    color: '#555',
-    marginBottom: 8,
-  },
-  eventDescription: {
-    fontSize: 16,
-    color: '#333',
-  },
-  cardIcon: {
-    alignSelf: 'center', // Centraliza o ícone no card
-  },
-  button: {
-    position: 'absolute',
-    bottom: 20,
-    left: 16,
-    right: 16,
-    borderRadius: 30, // Botão arredondado
-    backgroundColor: '#6200EE', // Cor de fundo do botão
-    paddingVertical: 10,
-  },
-});
+    container: {
+      flex: 1,
+      backgroundColor: '#F5F5F5', // Cor de fundo em pastel
+    },
+    innerContainer: {
+      flexGrow: 1,
+      padding: 16,
+      paddingBottom: 80, // Adicionado padding para evitar sobreposição com o footer
+    },
+    title: {
+      fontSize: 24,
+      fontWeight: 'bold',
+      color: '#a547bf', // Cor pastel para o título
+      marginBottom: 16,
+      textAlign: 'center',
+    },
+    input: {
+      backgroundColor: '#FFFFFF', // Cor de fundo do input
+      borderRadius: 8,
+      padding: 12,
+      marginBottom: 16,
+      fontSize: 16,
+    },
+    descriptionInput: {
+      height: 120,
+      textAlignVertical: 'top',
+    },
+    imageButton: {
+      backgroundColor: '#a547bf', // Cor pastel para o botão de imagem
+      borderRadius: 8,
+      marginBottom: 16,
+      padding: 16,
+      alignItems: 'center',
+    },
+    coverImage: {
+      width: '100%',
+      height: 200,
+      borderRadius: 8,
+    },
+    galleryButton: {
+      backgroundColor: '#D8BFD8', // Cor pastel para o botão de galeria
+      borderRadius: 8,
+      marginBottom: 16,
+      padding: 12,
+    },
+    galleryContainer: {
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      justifyContent: 'space-between',
+    },
+    galleryImage: {
+      width: 100,
+      height: 100,
+      borderRadius: 8,
+      marginBottom: 8,
+    },
+    submitButton: {
+      backgroundColor: '#C0C0C0', // Cor pastel para o botão de submissão
+      borderRadius: 8,
+      padding: 12,
+      alignItems: 'center',
+    },
+    footer: {
+      width: '100%',
+      flexDirection: 'row',
+      justifyContent: 'space-around',
+      position: 'absolute',
+      bottom: 0,
+      padding: 10,
+      backgroundColor: '#ffffff',
+      borderTopWidth: 1,
+      borderTopColor: '#cccccc',
+    },
+    footerButton: {
+      borderRadius: 8,
+      backgroundColor: 'transparent',
+      flex: 1,
+      marginHorizontal: 5,
+    },
+  });

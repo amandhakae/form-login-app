@@ -32,7 +32,7 @@ const getAdditionalImages = (eventId) => {
 
 export default function EventDetailsScreen({ route, navigation }) {
   const { event } = route.params;
-  const additionalImages = getAdditionalImages(event.id); // Assumindo que o ID do evento está sendo passado corretamente
+  const additionalImages = getAdditionalImages(event.id); // Use o ID do evento para obter as imagens corretas
 
   return (
     <Surface style={styles.container}>
@@ -47,7 +47,6 @@ export default function EventDetailsScreen({ route, navigation }) {
         <Text style={styles.subtitle}>{event.subtitle}</Text>
         <Text style={styles.date}>{event.date}</Text>
         <Text style={styles.description}>{event.description}</Text>
-        <Text style={styles.moreInfo}>{event.moreInfo}</Text> {/* Exibir mais informações */}
       </View>
       <ScrollView>
         <View style={styles.photosContainer}>
@@ -119,13 +118,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#333',
   },
-  moreInfo: {
-    fontSize: 16,
-    color: '#555',
-    marginTop: 10,
-  },
   photosContainer: {
-    marginTop: 20,
+    marginVertical: 16,
   },
   topRow: {
     flexDirection: 'row',
@@ -147,12 +141,8 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   button: {
-    position: 'absolute',
-    bottom: 20,
-    left: 16,
-    right: 16,
+    marginTop: 16,
     borderRadius: 30,
     backgroundColor: '#6200EE',
-    paddingVertical: 10,
   },
 });

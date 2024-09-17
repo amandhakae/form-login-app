@@ -1,7 +1,10 @@
+// LoginScreen.js
 import { useState } from "react";
 import { View } from "react-native";
 import { Button, Surface, Text, TextInput } from "react-native-paper";
 import { styles } from "../config/styles";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../config/firebase";
 
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState("");
@@ -11,44 +14,46 @@ export default function LoginScreen({ navigation }) {
     senha: false,
   });
 
-  function realizaLogin() {
+  async function realizaLogin() {
     console.log("Fazer Login");
+
     if (email === "") {
       setErro({ ...erro, email: true });
-    } else {
-      setErro({ ...erro, email: false });
+      return;
     }
     if (senha === "") {
       setErro({ ...erro, senha: true });
-    } else {
-      setErro({ ...erro, senha: false });
+      return;
     }
 
-    if (email !== "" && senha !== "") {
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, email, senha);
+      const user = userCredential.user;
+      console.log("Usuário logado", user);
+
+      // Navegar para a tela principal ou para outra tela após o login
       navigation.navigate("HomeScreen");
+    } catch (error) {
+      console.error("Erro ao fazer login:", error.message);
+      // Pode adicionar uma lógica para exibir uma mensagem de erro para o usuário
     }
   }
 
   return (
     <Surface style={styles.container}>
       <View style={styles.Containerlogo}>
-        {/* Utlizar o Expo-image  */}
+        {/* Utilizar uma imagem no Expo ou uma alternativa apropriada */}
         <div>
           <img
             src="assets/logo1.png"
             style={{ textAlign: "center" }}
             width={"100%"}
-            // height={380}
           />
         </div>
       </View>
 
       <View style={styles.ContainerForm}>
-        <Text
-          variant="headlineMedium"
-          style={{ textAlign: "center", marginBottom: 20 }}
-        >
-          <br />
+        <Text variant="headlineMedium" style={{ textAlign: "center", marginBottom: 20 }}>
           Login
         </Text>
         <TextInput
@@ -67,12 +72,7 @@ export default function LoginScreen({ navigation }) {
           error={erro.senha}
         />
         <View>
-          <br />
-          <Button
-            onPress={realizaLogin}
-            mode="contained"
-            style={{ backgroundColor: "#a547bf" }}
-          >
+          <Button onPress={realizaLogin} mode="contained" style={{ backgroundColor: "#a547bf" }}>
             Fazer Login
           </Button>
         </View>

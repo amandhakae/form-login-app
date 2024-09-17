@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "form-login-app",
-    "slug": "form-login-app",
+    "name": "UnicForms",
+    "slug": "UnicForms",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",

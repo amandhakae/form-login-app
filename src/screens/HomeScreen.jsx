@@ -1,22 +1,58 @@
-import { useEffect } from 'react';
-import { View, StyleSheet } from 'react-native';
-import { Button, Surface } from 'react-native-paper';
+import React, { useEffect } from 'react';
+import { View, StyleSheet, ScrollView } from 'react-native';
+import { Button, Surface, Text, Card, IconButton } from 'react-native-paper';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 export default function HomeScreen({ navigation }) {
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      navigation.navigate("LoginScreen");
-    }, 1000);
+  const handleEventPress = (event) => {
+    navigation.navigate('EventDetails', { event });
+  };
 
-    // Cleanup the timer on unmount
-    return () => clearTimeout(timer);
-  }, [navigation]);
+  const events = [
+    {
+      id: '1',
+      title: "Terceiras Intenções 2024",
+      subtitle: "Luna Live, Joinville",
+      image: "assets/img/image.png",
+      date: "21 de junho de 2024",
+      description: "O Terceiras Intenções já tem data marcada e como todo ano a atração nacional é sensacional.",
+      icon: "laptop",
+      moreInfo: "O evento contará com várias atrações locais e um show especial de encerramento com Mc Livinho.",
+    },
+    {
+      id: '2',
+      title: "Dia D Pijama Terceirão Bonja",
+      subtitle: "Colégio Bonja - Bom Jesus, Joinville",
+      image: "assets/img/diad.png",
+      date: "22 de agosto de 2024",
+      description: "Os alunos do Bonja passam por mais um dia D, neste mês será o Dia D Pijama!",
+      icon: "guitar-electric",
+      moreInfo: "Os alunos participarão de atividades recreativas e haverá um concurso de pijamas.",
+    },
+    {
+      id: '3',
+      title: "Arraiá Senac",
+      subtitle: "Faculdade Senac, Joinville",
+      image: "assets/img/arraia.png",
+      date: "12 de julho de 2024",
+      description: "Vai ter festança boa demais no Senac! Prepare o seu chapéu de palha e venha se divertir.",
+      icon: "leaf",
+      moreInfo: "Teremos barracas de comidas típicas, quadrilha, brincadeiras tradicionais, música ao vivo.",
+    },
+  ];
 
   return (
     <Surface style={styles.container}>
       <View style={styles.header}>
+        <Button
+          onPress={() => navigation.navigate("HomeScreen")}
+          mode="text"
+          style={styles.initialButton}
+          labelStyle={styles.initialButtonText}
+        >
+          Inicial
+        </Button>
         <Button
           onPress={() => navigation.navigate("PerfilScreen")}
           mode="contained"
@@ -26,10 +62,37 @@ export default function HomeScreen({ navigation }) {
         </Button>
       </View>
 
-      <View style={styles.innerContainer}>
-        {/* Espaço centralizado para conteúdo adicional */}
-      </View>
-      
+      <ScrollView contentContainerStyle={styles.innerContainer}>
+        <View style={styles.subtitleContainer}>
+          <Text style={styles.subtitle}>Eventos Imperdíveis</Text>
+        </View>
+        {events.map((event, index) => (
+          <Card key={index} style={styles.eventCard} onPress={() => handleEventPress(event)}>
+            <Card.Cover
+              source={{ uri: event.image }}
+              style={styles.cardImage}
+            />
+            <Card.Title
+              title={event.title}
+              subtitle={event.subtitle}
+              left={(props) => (
+                <IconButton
+                  {...props}
+                  icon={event.icon}
+                  style={styles.cardIcon}
+                />
+              )}
+              titleStyle={styles.cardTitle}
+              subtitleStyle={styles.cardSubtitle}
+            />
+            <Card.Content>
+              <Text style={styles.eventDate}>{event.date}</Text>
+              <Text style={styles.eventDescription}>{event.description}</Text>
+            </Card.Content>
+          </Card>
+        ))}
+      </ScrollView>
+
       <View style={styles.footer}>
         <Button
           onPress={() => navigation.navigate("EventsScreen")}
@@ -40,11 +103,11 @@ export default function HomeScreen({ navigation }) {
         </Button>
 
         <Button
-          onPress={() => navigation.navigate("AppScreen")}
+          onPress={() => navigation.navigate("HomeScreen")}
           mode="contained"
           style={styles.button}
         >
-          <MaterialCommunityIcons name="apps" size={24} color="#a547bf" />
+          <MaterialCommunityIcons name="home" size={24} color="#a547bf" />
         </Button>
 
         <Button
@@ -62,24 +125,80 @@ export default function HomeScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#f5f5f5', // Fundo cinza claro
+    backgroundColor: '#f5f5f5',
   },
   header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: 10,
+    backgroundColor: '#ffffff',
     position: 'absolute',
-    top: 10, // Posição do botão na parte superior da tela
-    right: 10, // Alinhado à direita
-    zIndex: 1, // Certifique-se de que o botão fique acima de outros componentes
+    top: 0,
+    left: 0,
+    right: 0,
+    zIndex: 1,
+  },
+  initialButton: {
+    backgroundColor: 'transparent',
+  },
+  initialButtonText: {
+    fontSize: 18,
+    color: '#a547bf',
+    textTransform: 'uppercase',
+    fontWeight: 'bold',
   },
   profileButton: {
-    backgroundColor: '#ffffff', // Fundo branco para o botão do perfil
-    borderRadius: 50, // Botão circular
-    padding: 10, // Espaçamento interno
+    backgroundColor: '#ffffff',
+    borderRadius: 30,
+    padding: 10,
   },
   innerContainer: {
-    flex: 1,
-    justifyContent: 'center',
+    paddingHorizontal: 16,
+    paddingBottom: 80,
+    paddingTop: 60, // Para evitar sobreposição com o header
+  },
+  subtitleContainer: {
+    paddingVertical: 24,
+    alignItems: 'center',
+  },
+  subtitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#a547bf',
+    textAlign: 'center',
+    textTransform: 'uppercase',
+    letterSpacing: 1.5,
+  },
+  eventCard: {
+    marginBottom: 20,
+    borderRadius: 10,
+    elevation: 6,
+    backgroundColor: '#ffffff',
+  },
+  cardImage: {
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+  },
+  cardTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#333',
+  },
+  cardSubtitle: {
+    fontSize: 14,
+    color: '#888',
+  },
+  eventDate: {
+    fontSize: 16,
+    color: '#555',
+    marginBottom: 8,
+  },
+  eventDescription: {
+    fontSize: 16,
+    color: '#333',
+  },
+  cardIcon: {
+    alignSelf: 'center',
   },
   footer: {
     width: '100%',
@@ -88,14 +207,14 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 0,
     padding: 10,
-    backgroundColor: '#ffffff', // Fundo branco para o rodapé
+    backgroundColor: '#ffffff',
     borderTopWidth: 1,
-    borderTopColor: '#cccccc', // Cor da borda superior cinza claro
+    borderTopColor: '#cccccc',
   },
   button: {
-    borderRadius: 8, // Cantos arredondados
-    backgroundColor: '#ffffff', // Fundo branco para os botões
+    borderRadius: 8,
+    backgroundColor: '#ffffff',
     flex: 1,
-    marginHorizontal: 5, // Espaçamento entre os botões
+    marginHorizontal: 5,
   },
 });
