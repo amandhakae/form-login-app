@@ -5,9 +5,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function PixScreen({ navigation }) {
   const [pixAmount, setPixAmount] = useState('');
-  const [pixType, setPixType] = useState('send'); // 'send' ou 'receive'
+  const [pixType, setPixType] = useState('send'); 
   const [transactionStatus, setTransactionStatus] = useState(null);
-  const [balance, setBalance] = useState(0); // Inicialmente 0, será carregado do AsyncStorage
+  const [balance, setBalance] = useState(0); 
 
   useEffect(() => {
     const loadBalance = async () => {
@@ -16,7 +16,7 @@ export default function PixScreen({ navigation }) {
         if (storedBalance !== null) {
           setBalance(parseFloat(storedBalance));
         } else {
-          setBalance(1356.00); // Saldo inicial padrão
+          setBalance(1356.00); 
         }
       } catch (error) {
         console.error('Erro ao carregar o saldo:', error);
@@ -75,8 +75,7 @@ export default function PixScreen({ navigation }) {
             mode={pixType === 'send' ? 'contained' : 'outlined'}
             onPress={() => setPixType('send')}
             style={[styles.radioButton, pixType === 'send' && styles.radioButtonActive]}
-            color={pixType === 'send' ? '#fff' : '#a547bf'} // Cor do texto do botão
-            contentStyle={styles.buttonContent} // Adiciona padding
+            color={pixType === 'send' ? '#fff' : '#a547bf'} 
           >
             Enviar
           </Button>
@@ -84,8 +83,8 @@ export default function PixScreen({ navigation }) {
             mode={pixType === 'receive' ? 'contained' : 'outlined'}
             onPress={() => setPixType('receive')}
             style={[styles.radioButton, styles.radioButtonReceive, pixType === 'receive' && styles.radioButtonActive]}
-            color={pixType === 'receive' ? '#fff' : '#a547bf'} // Cor do texto do botão
-            contentStyle={styles.buttonContent} // Adiciona padding
+            color={pixType === 'receive' ? '#fff' : '#a547bf'} 
+            contentStyle={styles.buttonContent} 
           >
             Receber
           </Button>

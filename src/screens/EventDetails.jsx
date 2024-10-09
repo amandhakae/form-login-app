@@ -2,7 +2,7 @@ import React from "react";
 import { Surface, Text, Button } from "react-native-paper";
 import { View, StyleSheet, Image, ScrollView } from "react-native";
 
-// Função para obter as imagens adicionais com base no evento
+
 const getAdditionalImages = (eventId) => {
   switch (eventId) {
     case '1':
@@ -19,7 +19,7 @@ const getAdditionalImages = (eventId) => {
         require('../../assets/img/diad.png'),
         require('../../assets/img/diad.png'),
       ];
-    // Adicione mais casos conforme necessário
+
     default:
       return [
         require('../../assets/img/diad.png'),

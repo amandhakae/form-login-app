@@ -1,12 +1,27 @@
 import React, { useState } from 'react';
 import { Surface, Text, Button } from 'react-native-paper';
 import { View, StyleSheet, ScrollView } from 'react-native';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 export default function BankScreen({ navigation }) {
-  const [balance, setBalance] = useState(1356.00);
-  const [creditCardBalance, setCreditCardBalance] = useState(1094.80);
-  const [creditCardLimit, setCreditCardLimit] = useState(730.00);
+  const [balance, setBalance] = useState(1356.00); // Saldo inicial inspirado na imagem
+  const [creditCardBalance, setCreditCardBalance] = useState(1094.80); // Fatura atual do cartão
+  const [creditCardLimit, setCreditCardLimit] = useState(730.00); // Limite disponível do cartão
+
+  const handleDeposit = () => {
+    const amount = parseFloat(depositAmount);
+    if (!isNaN(amount) && amount > 0) {
+      setBalance(balance + amount);
+      setDepositAmount('');
+    }
+  };
+
+  const handleWithdraw = () => {
+    const amount = parseFloat(withdrawAmount);
+    if (!isNaN(amount) && amount > 0 && amount <= balance) {
+      setBalance(balance - amount);
+      setWithdrawAmount('');
+    }
+  };
 
   const [depositAmount, setDepositAmount] = useState('');
   const [withdrawAmount, setWithdrawAmount] = useState('');
@@ -15,7 +30,7 @@ export default function BankScreen({ navigation }) {
     <Surface style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollViewContent}>
         <View style={styles.header}>
-          <Text style={styles.companyName}>UnicForm</Text>
+          <Text style={styles.companyName}>UnicForm </Text>
         </View>
         <View style={styles.accountContainer}>
           <Text style={styles.accountLabel}>Conta</Text>
@@ -38,32 +53,12 @@ export default function BankScreen({ navigation }) {
           <Text style={styles.cardAmount}>R$ {creditCardBalance.toFixed(2)}</Text>
           <Text style={styles.cardLimit}>Limite disponível: R$ {creditCardLimit.toFixed(2)}</Text>
         </View>
+        <View style={styles.bottomActions}>
+          <Button onPress={() => navigation.navigate("HomeScreen")} mode="contained">
+            Voltar
+          </Button>
+        </View>
       </ScrollView>
-      <View style={styles.footer}>
-        <Button
-          onPress={() => navigation.navigate("EventsScreen")}
-          mode="contained"
-          style={styles.footerButton}
-        >
-          <MaterialCommunityIcons name="calendar" size={24} color="#a547bf" /> 
-        </Button>
-
-        <Button
-          onPress={() => navigation.navigate("HomeScreen")}
-          mode="contained"
-          style={styles.footerButton}
-        >
-          <MaterialCommunityIcons name="home" size={24} color="#a547bf" /> 
-        </Button>
-
-        <Button
-          onPress={() => navigation.navigate("BankScreen")}
-          mode="contained"
-          style={styles.footerButton}
-        >
-          <MaterialCommunityIcons name="bank" size={24} color="#a547bf" /> 
-        </Button>
-      </View>
     </Surface>
   );
 }
@@ -75,10 +70,10 @@ const styles = StyleSheet.create({
   },
   scrollViewContent: {
     padding: 20,
-    paddingBottom: 40,
+    paddingBottom: 40, // Adiciona um pouco de espaço no final do conteúdo
   },
   header: {
-    backgroundColor: '#5e2c80', // Mantém a cor do cabeçalho
+    backgroundColor: '#5e2c80',
     padding: 20,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
@@ -92,6 +87,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     padding: 20,
     borderBottomWidth: 1,
+    borderColor: '#e0e0e0',
   },
   accountLabel: {
     color: '#444',
@@ -136,21 +132,9 @@ const styles = StyleSheet.create({
     fontSize: 14,
     marginTop: 5,
   },
-  footer: {
-    width: '100%',
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    position: 'absolute',
-    bottom: 0,
-    padding: 10,
-    backgroundColor: '#ffffff',
-    borderTopWidth: 1,
-    borderTopColor: '#cccccc',
-  },
-  footerButton: {
-    borderRadius: 8,
-    backgroundColor: '#ffffff', // Cor de fundo para os botões do footer
-    flex: 1,
-    marginHorizontal: 5,
+  bottomActions: {
+    marginTop: 20,
+    alignItems: 'center',
   },
 });
+

@@ -1,15 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
 import { Button, Surface, Text, Card, IconButton } from 'react-native-paper';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-export default function HomeScreen({ navigation }) {
-
-  const handleEventPress = (event) => {
-    navigation.navigate('EventDetails', { event });
-  };
-
-  const events = [
+export default function HomeScreen({ navigation, route }) {
+  const [events, setEvents] = useState([
     {
       id: '1',
       title: "Terceiras Intenções 2024",
@@ -40,7 +35,18 @@ export default function HomeScreen({ navigation }) {
       icon: "leaf",
       moreInfo: "Teremos barracas de comidas típicas, quadrilha, brincadeiras tradicionais, música ao vivo.",
     },
-  ];
+  ]);
+
+  // Captura o evento novo que foi passado da EventsScreen
+  useEffect(() => {
+    if (route.params?.newEvent) {
+      setEvents((prevEvents) => [...prevEvents, route.params.newEvent]);
+    }
+  }, [route.params?.newEvent]);
+
+  const handleEventPress = (event) => {
+    navigation.navigate('EventDetails', { event });
+  };
 
   return (
     <Surface style={styles.container}>

@@ -1,10 +1,11 @@
-// LoginScreen.js
 import { useState } from "react";
-import { View } from "react-native";
+import { View, Alert } from "react-native";
 import { Button, Surface, Text, TextInput } from "react-native-paper";
 import { styles } from "../config/styles";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../config/firebase";
+import { GoogleSignin } from '@react-native-google-signin/google-signin';  // Importar Google Sign-In
+import { GoogleAuthProvider, signInWithCredential } from 'firebase/auth';  // Importar Firebase Google Auth
 
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState("");
@@ -30,12 +31,28 @@ export default function LoginScreen({ navigation }) {
       const userCredential = await signInWithEmailAndPassword(auth, email, senha);
       const user = userCredential.user;
       console.log("Usuário logado", user);
-
-      // Navegar para a tela principal ou para outra tela após o login
       navigation.navigate("HomeScreen");
     } catch (error) {
       console.error("Erro ao fazer login:", error.message);
-      // Pode adicionar uma lógica para exibir uma mensagem de erro para o usuário
+    }
+  }
+
+  // Função para login com Google
+  async function signInWithGoogle() {
+    try {
+      // Verificar se os serviços do Google Play estão disponíveis
+      await GoogleSignin.hasPlayServices();
+      // Fazer o login com o Google
+      const { idToken } = await GoogleSignin.signIn();
+      // Criar a credencial do Firebase usando o token do Google
+      const googleCredential = GoogleAuthProvider.credential(idToken);
+      // Fazer o login no Firebase com as credenciais do Google
+      await signInWithCredential(auth, googleCredential);
+      Alert.alert('Login bem-sucedido!', 'Você está logado com sua conta Google.');
+      navigation.navigate("HomeScreen");  // Navegar para a HomeScreen após login bem-sucedido
+    } catch (error) {
+      console.error("Erro ao fazer login com o Google:", error);
+      Alert.alert('Erro ao fazer login com Google', error.message);
     }
   }
 
@@ -76,9 +93,19 @@ export default function LoginScreen({ navigation }) {
             Fazer Login
           </Button>
         </View>
+
+        {/* Botão de Login com Google */}
+        <Button
+          onPress={signInWithGoogle}
+          mode="contained"
+          style={{ backgroundColor: "#4285F4", marginTop: 20 }}
+        >
+          Fazer Login com Google
+        </Button>
+
         <Button
           onPress={() => navigation.navigate("RegisterScreen")}
-          style={{ color: "#a547bf" }}
+          style={{ color: "#a547bf", marginTop: 20 }}
         >
           Faça seu cadastro
         </Button>

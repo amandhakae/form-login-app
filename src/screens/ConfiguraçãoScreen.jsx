@@ -10,13 +10,13 @@ const Settings = () => {
   const [confirmNewPassword, setConfirmNewPassword] = useState('');
 
   const handleSaveProfile = () => {
-    // Logic to save profile changes
+
     alert('Perfil atualizado!');
   };
 
   const handleChangePassword = () => {
     if (newPassword === confirmNewPassword) {
-      // Logic to change password
+ 
       alert('Senha alterada com sucesso!');
     } else {
       alert('As senhas não coincidem!');

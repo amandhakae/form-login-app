@@ -9,20 +9,14 @@ export default function SplashScreen({ navigation }) {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         console.log("Usuário logado", user);
-        navigation.reset({
-          index: 0,
-          routes: [{ name: "HomeScreen" }],
-        });
+        navigation.navigate("HomeScreen");
       } else {
         console.log("Usuário não logado");
-        navigation.reset({
-          index: 0,
-          routes: [{ name: "LoginScreen" }],
-        });
+        navigation.navigate("LoginScreen");
       }
     });
 
-    return () => unsubscribe(); 
+    return () => unsubscribe();
   }, [navigation]);
 
   return (

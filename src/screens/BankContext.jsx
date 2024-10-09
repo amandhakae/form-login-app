@@ -1,17 +1,41 @@
-import React, { createContext, useState, useContext } from 'react';
+// BalanceContext.js
+import React, { createContext, useState, useEffect } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const BankContext = createContext();
+export const BalanceContext = createContext();
 
-export const BankProvider = ({ children }) => {
-  const [balance, setBalance] = useState(1356.00); // Saldo inicial
-  const [creditCardBalance, setCreditCardBalance] = useState(1094.80); // Fatura do cartão
-  const [creditCardLimit, setCreditCardLimit] = useState(730.00); // Limite do cartão
+export const BalanceProvider = ({ children }) => {
+  const [balance, setBalance] = useState(0);
+
+  useEffect(() => {
+    const loadBalance = async () => {
+      try {
+        const storedBalance = await AsyncStorage.getItem('balance');
+        if (storedBalance !== null) {
+          setBalance(parseFloat(storedBalance));
+        } else {
+          setBalance(1356.00); // Saldo inicial padrão
+        }
+      } catch (error) {
+        console.error('Erro ao carregar o saldo:', error);
+      }
+    };
+
+    loadBalance();
+  }, []);
+
+  const updateBalance = async (newBalance) => {
+    try {
+      await AsyncStorage.setItem('balance', newBalance.toFixed(2));
+      setBalance(newBalance);
+    } catch (error) {
+      console.error('Erro ao atualizar o saldo:', error);
+    }
+  };
 
   return (
-    <BankContext.Provider value={{ balance, setBalance, creditCardBalance, setCreditCardBalance, creditCardLimit, setCreditCardLimit }}>
+    <BalanceContext.Provider value={{ balance, updateBalance }}>
       {children}
-    </BankContext.Provider>
+    </BalanceContext.Provider>
   );
 };
-
-export const useBank = () => useContext(BankContext);

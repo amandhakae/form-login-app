@@ -1,8 +1,7 @@
-// src/screens/ChatScreen.jsx
+
 import React, { useState } from 'react';
 import { View, TextInput, Button, FlatList, Text, StyleSheet } from 'react-native';
 
-// Exemplo de respostas automáticas do chatbot
 const botResponses = {
   "oi": "Olá! Como posso te ajudar?",
   "tudo bem?": "Estou bem, obrigado por perguntar!",
@@ -11,29 +10,24 @@ const botResponses = {
 };
 
 const ChatScreen = ({ route }) => {
-  const { userName } = route.params; // Nome do usuário do perfil
+  const { userName } = route.params; 
   const [messages, setMessages] = useState([]);
   const [inputMessage, setInputMessage] = useState('');
 
-  // Função que lida com o envio da mensagem
   const handleSendMessage = () => {
     if (inputMessage.trim() === '') return;
 
-    // Adiciona a mensagem do usuário na lista
     const newMessages = [...messages, { sender: 'user', text: inputMessage }];
     setMessages(newMessages);
 
-    // Resposta automática do chatbot
     const botReply = botResponses[inputMessage.toLowerCase()] || botResponses['default'];
 
-    // Adiciona a resposta do chatbot
     setTimeout(() => {
       setMessages([...newMessages, { sender: 'bot', text: botReply }]);
-    }, 1000); // Simula um tempo de resposta
+    }, 1000); 
     setInputMessage('');
   };
 
-  // Renderiza as mensagens
   const renderMessage = ({ item }) => (
     <View style={item.sender === 'user' ? styles.userMessage : styles.botMessage}>
       <Text style={styles.messageText}>{item.text}</Text>
